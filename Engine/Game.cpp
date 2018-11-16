@@ -45,7 +45,7 @@ void Game::UpdateModel()
 
 	} 
 
-	
+		
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
@@ -68,7 +68,15 @@ void Game::UpdateModel()
 		
 	} 
 
-	colliding = OverlapTest(x_fixed, y_fixed, x_mobile, y_mobile);
+	x_mobile = ContainBoxX(x_mobile);
+	y_mobile = ContainBoxY(y_mobile);
+	
+	//Test if all the boxes are overlapping
+	colliding =
+		OverlapTest(x_fixed0, y_fixed0, x_mobile, y_mobile) || //OR
+		OverlapTest(x_fixed1, y_fixed1, x_mobile, y_mobile) ||
+		OverlapTest(x_fixed2, y_fixed2, x_mobile, y_mobile) ||
+		OverlapTest(x_fixed3, y_fixed3, x_mobile, y_mobile);
 	
 	
 
@@ -78,7 +86,11 @@ void Game::UpdateModel()
 	//Viewport is 800 x 600
 		void Game::ComposeFrame()
 		{
-			DrawBox(x_fixed, y_fixed, 0, 255, 255);
+			//Draw four boxes
+			DrawBox(x_fixed0, y_fixed0, 0, 255, 255);
+			DrawBox(x_fixed1, y_fixed1, 0, 255, 255);
+			DrawBox(x_fixed2, y_fixed2, 0, 255, 255);
+			DrawBox(x_fixed3, y_fixed3, 0, 255, 255);
 
 			if (colliding) //Colour when colliding
 			{
@@ -134,17 +146,51 @@ void Game::UpdateModel()
 			const int top_box1 = y_box1 - 5;
 			const int bottom_box1 = y_box1 + 5;
 
-			if (left_box0 <= right_box1 &&
+			//Collision spaces
+			return left_box0 <= right_box1 &&
 				right_box0 >= left_box1 &&
 				top_box0 <= bottom_box1 &&
-				bottom_box0 >= top_box1) {
+				bottom_box0 >= top_box1;
 
-				return true;
-
-			}
-			else {
-
-				return false;
-			}
+			
 		}
 	
+		int Game::ContainBoxX(int x)
+		{
+			const int left = x - 5;
+			const int right = x + 5;
+
+			if (left < 0) {
+				return 5;
+			}
+
+			else if (right >= gfx.ScreenWidth) {
+				return gfx.ScreenWidth - 6;
+			}
+
+			else {
+
+				return x;
+			}
+
+		}
+
+		int Game::ContainBoxY(int y)
+		{
+			const int top = y - 5;
+			const int bottom = y + 5;
+
+			if (top < 0) {
+				return 5;
+			}
+
+			else if (bottom >= gfx.ScreenHeight) {
+				return gfx.ScreenHeight - 6;
+			}
+
+			else {
+				
+				return y;
+			}
+		}
+

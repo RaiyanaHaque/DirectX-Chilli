@@ -36,6 +36,8 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+	int ContainBoxX(int x);
+	int ContainBoxY(int y);
 	/********************************/
 	/*  User Functions              */
 
@@ -47,20 +49,17 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	int x_fixed = 200;
-	int y_fixed = 200;
+	int x_fixed0 = 200;
+	int y_fixed0 = 200;
+	int x_fixed1 = 210;
+	int y_fixed1 = 200;
+	int x_fixed2 = 215;
+	int y_fixed2 = 200;
+	int x_fixed3 = 230;
+	int y_fixed3 = 200;
 	int x_mobile = 400;
 	int y_mobile = 400;
 	bool colliding = false;
-	int x = 400;
-	int y = 400;
-	int vx = 0;
-	int vy = 0;
-	int gb = 255;
-	bool shapeIsChanged = true;
-	bool inhibitUp = false;
-	bool inhibitDown = false;
-	bool inhibitLeft = false;
-	bool inhibitRight = false;
+	
 	/********************************/
 };
